@@ -8,10 +8,14 @@
 module.exports = async (ctx, next) => {
   try {
     await next();
+    let message = 'success';
+    if (ctx.status === 404) {
+      message = 'not found';
+    }
     ctx.body = {
       code: ctx.status,
       data: ctx.body,
-      message: 'success',
+      message,
     };
   } catch (err) {
     if (err?.kind === 'ObjectId') {
